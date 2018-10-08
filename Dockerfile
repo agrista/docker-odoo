@@ -3,6 +3,9 @@ LABEL version="1.0" \
       maintainer="Agrista <info@agrista.com>" \
       description="Odoo docker image for the Agrisat SaaS service"
 
+# Generate locale C.UTF-8 for postgres and general locale data
+ENV LANG C.UTF-8
+
 WORKDIR /srv/odoo
 
 COPY requirements.txt /srv/odoo/
