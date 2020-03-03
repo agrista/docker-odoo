@@ -67,5 +67,6 @@ RUN pip3 install \
     redis \ 
     boto3 \
     statsd \
+    simplejson \
     python-json-logger \
     Elasticsearch
