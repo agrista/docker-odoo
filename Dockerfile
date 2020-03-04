@@ -66,5 +66,5 @@ RUN pip3 install \
     phonenumbers \
     redis \ 
     boto3 \
-    statsd \
-    python-json-logger
+    simplejson \
+    Elasticsearch
