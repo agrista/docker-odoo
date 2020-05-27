@@ -69,4 +69,7 @@ RUN pip3 install \
     statsd \
     simplejson \
     python-json-logger \
-    Elasticsearch
+    Elasticsearch \
+    shapely \
+    geojson \
+    pyfcm
