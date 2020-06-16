@@ -72,4 +72,5 @@ RUN pip3 install \
     Elasticsearch \
     shapely \
     geojson \
-    pyfcm
+    pyfcm \
+    numpy
