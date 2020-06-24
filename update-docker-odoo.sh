@@ -1,3 +1,3 @@
 #!/bin/bash
-docker build -t agrista/docker-odoo .
-docker push agrista/docker-odoo
+docker build -t agrista/odoo-shell .
+docker push agrista/odoo-shell

@@ -48,8 +48,8 @@ RUN set -x; \
 
 # Install Odoo
 ENV ODOO_VERSION 13.0
-ARG ODOO_RELEASE=20200121
-ARG ODOO_SHA=770d71cfafb9a8f8419b88f8033b964d5742ad57
+ARG ODOO_RELEASE=20200624
+ARG ODOO_SHA=2efbb2c780005fcd43e01e327c948717c45a93d4
 RUN set -x; \
     curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
@@ -64,9 +64,10 @@ RUN pip3 install \
     num2words \
     xlwt \
     phonenumbers \
-    redis \ 
-    boto3 \
     statsd \
     simplejson \
     python-json-logger \
-    Elasticsearch
+    Elasticsearch \
+    shapely \
+    geojson \
+    unidecode
