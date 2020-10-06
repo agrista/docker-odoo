@@ -72,4 +72,6 @@ RUN pip3 install \
     geojson \
     pyfcm \
     numpy \
-    unidecode
+    unidecode \
+    graphene \
+    graphql-server-core
