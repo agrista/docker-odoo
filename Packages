@@ -1,17 +1,17 @@
 Package: odoo
-Version: 13.0.20201012
+Version: 13.0.20201222
 Architecture: all
 Maintainer: Odoo S.A. <info@odoo.com>
-Installed-Size: 571175
+Installed-Size: 573221
 Depends: python3-babel, python3-dateutil, python3-decorator, python3-docutils, python3-feedparser, python3-gevent, python3-html2text, python3-jinja2, python3-libsass, python3-lxml, python3-mako, python3-mock, python3-ofxparse, python3-passlib, python3-pil, python3-polib, python3-psutil, python3-psycopg2, python3-pydot, python3-pyparsing, python3-pypdf2, python3-qrcode, python3-reportlab, python3-requests, python3-serial, python3-tz, python3-usb, python3-vatnumber, python3-vobject, python3-werkzeug, python3-xlsxwriter, python3-zeep, python3:any, adduser, lsb-base, postgresql-client, python3-chardet, python3-suds, python3-xlrd
 Recommends: postgresql, python3-ldap
 Conflicts: openerp, openerp-server, openerp-web, tinyerp-server
 Replaces: openerp, openerp-server, openerp-web, tinyerp-server
-Filename: ./odoo_13.0.20201012_all.deb
-Size: 61350244
-MD5sum: 7ac388bc0c06b1b93efa1a0562e86195
-SHA1: 30bfb107a331975c09c73faeac692993313515b4
-SHA256: 9bd1efb4cff40bfeab0dbde282f57c35bc0bbc4a01308244b30d29c1099a2780
+Filename: ./odoo_13.0.20201222_all.deb
+Size: 61840900
+MD5sum: bbe33bdfb3b3daf61dea56aa45ea5b37
+SHA1: fdc77e1be0a4e89f69850e29059a35b63e8d4a39
+SHA256: b89ca33e66ff36e7075e4cdf046de424308cf7c37b827b91c232a3e9164c9034
 Section: net
 Priority: optional
 Homepage: http://www.odoo.com/

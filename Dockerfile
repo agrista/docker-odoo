@@ -22,6 +22,8 @@ RUN set -x; \
     python3-setuptools \
     python3-vobject \
     python3-watchdog \
+    python3-xlrd \
+    python3-xlwt \
     xz-utils \
     && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb \
     && echo '7e35a63f9db14f93ec7feeb0fce76b30c08f2057 wkhtmltox.deb' | sha1sum -c - \
@@ -48,8 +50,8 @@ RUN set -x; \
 
 # Install Odoo
 ENV ODOO_VERSION 13.0
-ARG ODOO_RELEASE=20201012
-ARG ODOO_SHA=30bfb107a331975c09c73faeac692993313515b4
+ARG ODOO_RELEASE=20201222
+ARG ODOO_SHA=fdc77e1be0a4e89f69850e29059a35b63e8d4a39
 RUN set -x; \
     curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
@@ -74,4 +76,8 @@ RUN pip3 install \
     numpy \
     unidecode \
     graphene \
-    graphql-server-core
+    graphql-server-core \
+    python-slugify \
+    requests_mock \
+    openpyxl \
+    xlsxwriter
