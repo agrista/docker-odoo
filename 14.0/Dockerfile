@@ -1,4 +1,6 @@
-FROM debian:buster
+FROM debian:buster-slim
+
+SHELL ["/bin/bash", "-xo", "pipefail", "-c"]
 
 # Generate locale C.UTF-8 for postgres and general locale data
 ENV LANG C.UTF-8
@@ -15,6 +17,8 @@ RUN set -x; \
     libssl-dev \
     node-less \
     npm \
+    python3-num2words \
+    python3-pdfminer \
     python3-pip \
     python3-pyldap \
     python3-qrcode \
@@ -49,35 +53,36 @@ RUN set -x; \
     npm install -g rtlcss
 
 # Install Odoo
-ENV ODOO_VERSION 13.0
-ARG ODOO_RELEASE=20201222
-ARG ODOO_SHA=fdc77e1be0a4e89f69850e29059a35b63e8d4a39
-RUN set -x; \
-    curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
+ENV ODOO_VERSION 14.0
+ARG ODOO_RELEASE=20210518
+ARG ODOO_SHA=8e479ad5ac2c7374711bf5d7a1991d3d622be562
+RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
-    && dpkg --force-depends -i odoo.deb \
     && apt-get update \
-    && apt-get -y install -f --no-install-recommends \
+    && apt-get -y install --no-install-recommends ./odoo.deb \
     && rm -rf /var/lib/apt/lists/* odoo.deb
 
-# Copy entrypoint script and Odoo configuration file
+# Install PIP libraries
 RUN pip3 install --upgrade pip
 RUN pip3 install \
-    num2words \
-    xlwt \
-    phonenumbers \
-    statsd \
-    simplejson \
-    python-json-logger \
-    Elasticsearch \
-    shapely \
+    boto3==1.9.102 \
     geojson \
-    pyfcm \
-    numpy \
-    unidecode \
+    Elasticsearch \
     graphene \
     graphql-server-core \
-    python-slugify \
-    requests_mock \
+    numpy \
     openpyxl \
+    phonenumbers \
+    pyfcm \
+    python-json-logger==0.1.5 \
+    python-slugify \
+    PyYAML \
+    redis==2.10.5 \
+    requests_mock \
+    simplejson \
+    shapely \
+    statsd==3.2.1 \
+    unidecode \
     xlsxwriter
+
+COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
