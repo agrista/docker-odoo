@@ -83,6 +83,8 @@ RUN pip3 install \
     shapely \
     statsd==3.2.1 \
     unidecode \
-    xlsxwriter
+    xlsxwriter \
+    jwcrypto \
+    python-jwt
 
 COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
