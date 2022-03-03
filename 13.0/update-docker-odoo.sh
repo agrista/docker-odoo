@@ -1,3 +1,3 @@
 #!/bin/bash
-docker build -t agrista/odoo-shell:13.0 .
-docker push agrista/odoo-shell:13.0
+docker build -t contagra/odoo-shell:13.0 .
+docker push contagra/odoo-shell:13.0
