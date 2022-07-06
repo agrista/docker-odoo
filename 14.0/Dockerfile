@@ -58,8 +58,8 @@ RUN set -x; \
 
 # Install Odoo
 ENV ODOO_VERSION 14.0
-ARG ODOO_RELEASE=20220225
-ARG ODOO_SHA=43391a3049b84ee35d58815ad1052c777a113e60
+ARG ODOO_RELEASE=20220629
+ARG ODOO_SHA=ecd7c70bcc58d29d1d43b78a0785d9926fc569b0
 RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
     && apt-get update \
@@ -82,6 +82,7 @@ RUN pip3 install \
     marshmallow \
     marshmallow-objects>=2.0.0 \
     numpy \
+    odoo-test-helper \
     openpyxl \
     parse-accept-language \
     phonenumbers \
@@ -100,6 +101,7 @@ RUN pip3 install \
     unidecode \
     XlsxWriter==1.1.2 \
     validators==0.18.2 \
-    git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+    git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib \
+    git+https://github.com/contagra/contagra-api-python.git@main
 
 COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
