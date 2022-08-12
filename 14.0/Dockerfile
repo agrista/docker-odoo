@@ -34,8 +34,7 @@ RUN set -x; \
     xz-utils \
     && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb \
     && echo 'ea8277df4297afc507c61122f3c349af142f31e5 wkhtmltox.deb' | sha1sum -c - \
-    && dpkg --force-depends -i wkhtmltox.deb\
-    && apt-get -y install -f --no-install-recommends \
+    && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
     && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
 
 # install latest postgresql-client
@@ -58,8 +57,8 @@ RUN set -x; \
 
 # Install Odoo
 ENV ODOO_VERSION 14.0
-ARG ODOO_RELEASE=20220629
-ARG ODOO_SHA=ecd7c70bcc58d29d1d43b78a0785d9926fc569b0
+ARG ODOO_RELEASE=20220812
+ARG ODOO_SHA=91048a02688e4d22aa188db7802e2eb6c07cb081
 RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
     && apt-get update \
@@ -82,6 +81,7 @@ RUN pip3 install \
     marshmallow \
     marshmallow-objects>=2.0.0 \
     numpy \
+    numpy-financial \
     odoo-test-helper \
     openpyxl \
     parse-accept-language \
