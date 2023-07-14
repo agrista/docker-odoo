@@ -1,5 +1,7 @@
 FROM debian:bookworm-slim
 
+LABEL org.opencontainers.image.source=https://github.com/agrista/docker-odoo
+
 SHELL ["/bin/bash", "-xo", "pipefail", "-c"]
 
 # Generate locale C.UTF-8 for postgres and general locale data
@@ -44,7 +46,7 @@ RUN set -x; \
     && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
 
 # install latest postgresql-client
-RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
+RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
     && GNUPGHOME="$(mktemp -d)" \
     && export GNUPGHOME \
     && repokey='B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8' \
@@ -63,8 +65,8 @@ RUN set -x; \
 
 # Install Odoo
 ENV ODOO_VERSION 16.0
-ARG ODOO_RELEASE=20230310
-ARG ODOO_SHA=98ae3919fe80e537531c55d74e91f57853e7a67a
+ARG ODOO_RELEASE=20230629
+ARG ODOO_SHA=ef1a7436be87a897efa0d0b4a50a159d2ee3e1e3
 RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
     && apt-get update \
@@ -74,12 +76,16 @@ RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/od
 # Install PIP libraries
 RUN pip3 install --break-system-packages --upgrade pip
 RUN pip3 install --break-system-packages \
+    a2wsgi \
     apispec \
     apispec>=4.0.0 \
     boto3==1.18.25 \
+    fastapi \
+    fastapi_camelcase \
     geojson \
     Elasticsearch \
-    graphene==2.1.9 \
+    graphene \
+    graphql_server \
     graphql-server-core \
     jwcrypto \
     jsondiff \
@@ -92,11 +98,13 @@ RUN pip3 install --break-system-packages \
     openpyxl \
     parse-accept-language \
     phonenumbers \
+    pydantic==1.10.11 \
     pyfcm \
     pyquerystring \
     python-json-logger==0.1.5 \
     python_jwt \
     python-magic \
+    python-multipart \
     python-slugify \
     PyYAML \
     redis==2.10.5 \
@@ -104,10 +112,13 @@ RUN pip3 install --break-system-packages \
     slugify \
     shapely \
     statsd==3.2.1 \
+    ujson \
     unidecode \
-    XlsxWriter==1.1.2 \
+    # XlsxWriter==1.1.2 \
     validators==0.18.2 \
     git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
     # git+https://github.com/contagra/contagra-api-python.git@main
+
+RUN pip3 install --break-system-packages --ignore-installed XlsxWriter==1.1.2
 
 COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
