@@ -1,3 +1,3 @@
 #!/bin/bash
-docker build -t agrista/odoo:16.4-bookworm .
-docker push agrista/odoo:16.4-bookworm
+docker build -t contagra/odoo:16.4-bookworm .
+docker push contagra/odoo:16.4-bookworm

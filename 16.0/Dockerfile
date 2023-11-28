@@ -65,8 +65,8 @@ RUN set -x; \
 
 # Install Odoo
 ENV ODOO_VERSION 16.0
-ARG ODOO_RELEASE=20230629
-ARG ODOO_SHA=ef1a7436be87a897efa0d0b4a50a159d2ee3e1e3
+ARG ODOO_RELEASE=20231127
+ARG ODOO_SHA=cf3fe2729f489476b5a07411a647667ed21e5208
 RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
     && apt-get update \
@@ -120,5 +120,6 @@ RUN pip3 install --break-system-packages \
     # git+https://github.com/contagra/contagra-api-python.git@main
 
 RUN pip3 install --break-system-packages --ignore-installed XlsxWriter==1.1.2
+RUN pip3 install --break-system-packages --ignore-installed Werkzeug==2.0.2 --force-reinstall
 
 COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
