@@ -40,12 +40,22 @@ RUN set -x; \
     # Install libssl1.1. Required by wkhtml2pdf. Possibel move to https://github.com/acsone/kwkhtmltopdf
     && curl -o libssl1.1.deb -sSL http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb \
     && apt-get -y install --no-install-recommends ./libssl1.1.deb \
-    && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb \
-    && echo 'ea8277df4297afc507c61122f3c349af142f31e5 wkhtmltox.deb' | sha1sum -c - \
+    # Install wkhtmltopdf
+    if [ -z "${TARGETARCH}" ]; then \
+        TARGETARCH="$(dpkg --print-architecture)"; \
+    fi; \
+    WKHTMLTOPDF_ARCH=${TARGETARCH} && \
+    case ${TARGETARCH} in \
+    "amd64") WKHTMLTOPDF_ARCH=amd64 && WKHTMLTOPDF_SHA=967390a759707337b46d1c02452e2bb6b2dc6d59  ;; \
+    "arm64")  WKHTMLTOPDF_SHA=90f6e69896d51ef77339d3f3a20f8582bdf496cc  ;; \
+    "ppc64le" | "ppc64el") WKHTMLTOPDF_ARCH=ppc64el && WKHTMLTOPDF_SHA=5312d7d34a25b321282929df82e3574319aed25c  ;; \
+    esac \
+    && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_${WKHTMLTOPDF_ARCH}.deb \
+    && echo ${WKHTMLTOPDF_SHA} wkhtmltox.deb | sha1sum -c - \
     && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
     && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
 
-# install latest postgresql-client
+    # install latest postgresql-client
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
     && GNUPGHOME="$(mktemp -d)" \
     && export GNUPGHOME \
@@ -65,8 +75,8 @@ RUN set -x; \
 
 # Install Odoo
 ENV ODOO_VERSION 16.0
-ARG ODOO_RELEASE=20231127
-ARG ODOO_SHA=cf3fe2729f489476b5a07411a647667ed21e5208
+ARG ODOO_RELEASE=20231024
+ARG ODOO_SHA=8f81d6ff0fe4f9bc5a63cdeccb7006a7fc98f134
 RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
     && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
     && apt-get update \
@@ -100,6 +110,7 @@ RUN pip3 install --break-system-packages \
     phonenumbers \
     pydantic==1.10.11 \
     pyfcm \
+    PyJWT \
     pyquerystring \
     python-json-logger==0.1.5 \
     python_jwt \

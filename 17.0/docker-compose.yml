@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  nginx:
+    container_name: practique-nginx
+    build: ./nginx
+    image: practique-nginx
+    volumes:
+      - nginx-data:/tmp/cache
+    ports:
+      - 8014:8014
+    restart: always
+    depends_on:
+      - odoo
+
+  odoo:
+    container_name: agrista-odoo
+    build: .
+    image: agrista-odoo:17.0-jammy
+    environment:
+      - DB_ENV_POSTGRES_USER=${DB_ENV_POSTGRES_USER}
+      - ODOO_DB_USER=${ODOO_DB_USER}
+      - ODOO_DB_PASSWORD=${ODOO_DB_PASSWORD}
+      - ODOO_DB_HOST=${ODOO_DB_HOST}
+      - ODOO_DB_PORT=${ODOO_DB_PORT}
+      - ODOO_DB_NAME=${ODOO_DB_NAME}
+      - ODOO_DB_FILTER=${ODOO_DB_FILTER}
+      - ODOO_NO_DATABASE_LIST=${ODOO_NO_DATABASE_LIST}
+      - ODOO_PROXY_MODE=${ODOO_PROXY_MODE}
+      - ODOO_WORKERS=${ODOO_WORKERS}
+      - ODOO_LOG_LEVEL=${ODOO_LOG_LEVEL}
+      - ODOO_LIMIT_TIME_CPU=${ODOO_LIMIT_TIME_CPU}
+      - ODOO_LIMIT_TIME_REAL=${ODOO_LIMIT_TIME_REAL}
+      - ODOO_LOAD_MODULES=${ODOO_LOAD_MODULES}
+      - ODOO_EMAIL_FROM=${ODOO_EMAIL_FROM}
+      - ODOO_SMTP_SERVER=${ODOO_SMTP_SERVER}
+      - ODOO_SMTP_PORT=${ODOO_SMTP_PORT}
+      - ODOO_SMTP_SSL=${ODOO_SMTP_SSL}
+      - ODOO_SMTP_USER=${ODOO_SMTP_USER}
+      - ODOO_SMTP_PASSWORD=${ODOO_SMTP_PASSWORD}
+    volumes:
+      - odoo-data:/var/lib/odoo
+    ports:
+      - 8069:8069
+      - 8072:8079
+    restart: always
+
+volumes:
+  odoo-data:
+  nginx-data:

@@ -124,6 +124,7 @@ RUN pip3 install --break-system-packages \
     phonenumbers \
     pydantic==1.10.11 \
     pyfcm \
+    PyJWT \
     pyquerystring \
     python-json-logger==0.1.5 \
     python_jwt \
